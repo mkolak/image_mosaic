@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+body {
+    background: #eee;
+    font-family: 'Roboto', sans-serif;
+
+}
+
+
+.welcome {
+    background-color: #fff;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    line-height: 3em;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.search {
+    width: 500px;
+    height: 40px;
+    margin: auto;
+}
+
+.form-control {
+    width: 100%;
+    height: 100%;
+    border-bottom: 1000px;
+}
+
+.container {
+    margin: 0 5em;
+    padding-left: 3em;
+    padding-right: 3em;
+    width: auto;
+    height: 85vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: .2em;
+}
+
+.slider {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    box-shadow: none;
+    transition: box-shadow .2s linear;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity .7s ease-in-out;
+}
+
+.slider:hover .buttons button {
+    opacity: 1;
+    transition: opacity .4s linear;
+}
+
+.slider:hover .buttons .remove {
+    opacity: .6;
+}
+
+.slider:hover .buttons .remove:hover {
+    opacity: 1;
+}
+
+.slide.current {
+    opacity: 1;
+}
+
+.slider:hover {
+    box-shadow: 2px 2px 5px;
+}
+
+.buttons button.next {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+}
+
+.buttons button.prev {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+}
+
+.buttons .prev,
+.buttons .next {
+    opacity: 0;
+    border: 2px solid #fff;
+    background-color: transparent;
+    cursor: pointer;
+    color: #fff;
+    padding: 13px 15px;
+    border-radius: 50%;
+    outline: none;
+    transition: background-color .2s ease-in-out;
+}
+
+.fa-times {
+    font-size: 20px;
+}
+
+.buttons .remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    opacity: 0;
+    border: 2px solid #fff;
+    width: 50px;
+    height: 50px;
+    outline: none;
+    cursor: pointer;
+}
+
+.buttons button:hover {
+    background-color: #fff;
+    color: #333;
+}
+
+.slider .label {
+    outline: none;
+    border: none;
+    text-align: center;
+    border-bottom: 10px solid aliceblue;
+    background-color: #000;
+    opacity: 0;
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    z-index: 2;
+    color: #fff;
+    transition: opacity .3s ease-in-out;
+    padding: 1em;
+}
+
+.slider:hover .label {
+    opacity: 1;
+}
+
+.h-2 {
+    grid-row: span 2;
+}
+
+/* Small version of buttons */
+
+.slider.small .fas {
+    font-size: 10px;
+}
+
+.slider.small .remove {
+    width: 25px;
+    height: 25px;
+}
+
+.slider.small .label {
+    bottom: 4%;
+    font-size: 12px;
+    border-bottom: 7px solid aliceblue;
+    padding: .7em;
+}
+
+
+.slider.small .buttons .prev,
+.slider.small .buttons .next {
+    width: 25px;
+    height: 25px;
+    padding: 0;
+}
+
+/* Very small version of buttons */
+
+.slider.very-small .fas {
+    font-size: 8px;
+}
+
+.slider.very-small .remove {
+    width: 22px;
+    height: 22px;
+}
+
+.slider.very-small .label {
+    display: none;
+}
+
+.slider.very-small .buttons .prev,
+.slider.very-small .buttons .next {
+    width: 15px;
+    height: 15px;
+    background-color: #fff;
+    padding: 0;
+}
+
+.slider.very-small .buttons .prev i,
+.slider.very-small .buttons .next i {
+    display: none;
+}
