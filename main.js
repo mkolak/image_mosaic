@@ -302,7 +302,6 @@ input.addEventListener('keyup', function (e) {
     if (e.keyCode === 13) {
         if (Object.keys(cache).length == 0) document.querySelector('.welcome').remove();
         let clean_id = input.value;
-        input.blur();
         input.value = '';
         if (cache[clean_id]) {
             cache[clean_id][0]++;
@@ -326,6 +325,7 @@ input.addEventListener('keyup', function (e) {
             .then(response => response.json())
             .then(result => {
                 input.disabled = false;
+                input.focus();
                 createSlider(Object.values(result), clean_id);
                 cache[clean_id] = [1, Object.values(result)];
                 let n = document.querySelector('.container').children.length;
