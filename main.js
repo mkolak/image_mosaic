@@ -19,7 +19,7 @@ function updateGrid(n) {
     let double_cols = n % col_num != 0 ? col_num - n % col_num : 0;
     let container = document.querySelector('.container');
     container.style.gridTemplateColumns = `repeat(${col_num}, 1fr)`
-    for (let i = 0; i < col_num; i++) {
+    for (let i = 0; i < col_num * 2; i++) {
         if (i < double_cols) {
             container.children[i].classList.add('h-2')
         } else {
@@ -36,6 +36,7 @@ function updateGrid(n) {
 
 function createSlider(urls, clean_id, cacheNumber = 0) {
     let id;
+    let container = document.querySelector('.container');
     if (cacheNumber) {
         id = 'a-' + cacheNumber + '-' + clean_id.split(' ').join('-');
     } else {
@@ -54,7 +55,10 @@ function createSlider(urls, clean_id, cacheNumber = 0) {
     slider.appendChild(buttons);
     slider.appendChild(label);
     addSliderEvents(slider);
-    document.querySelector('.container').appendChild(slider);
+    container.appendChild(slider);
+    let n = container.children.length;
+    slider.classList.toggle('small', n > 12 && n <= 32);
+    slider.classList.toggle('very-small', n > 32);
 }
 
 function createSlide(id, url) {
@@ -227,7 +231,6 @@ function addSliderEvents(slider) {
     // First function serves as a initiator of drag event. All parameters are set upon a mousedown event, and user is ready to move image with mousemove event
 
     slider.addEventListener('mousedown', (e) => {
-        console.log('mousedown');
         if (!e.target.classList.contains('slide')) {
             return;
         }
@@ -243,14 +246,12 @@ function addSliderEvents(slider) {
         start_slideY = parseInt(current_slide.style.backgroundPositionY.slice(0, -1));
         start_mouseX = e.offsetX;
         start_mouseY = e.offsetY;
-        console.log(`startX = ${start_slideX}, startY = ${start_slideY}, mouseX = ${start_mouseX}, mouseY = ${start_mouseY}`);
     })
 
     // Second function calculates movement change from initial parameters set by mousedown, and movement change to change image position
 
     slider.addEventListener('mousemove', (e) => {
         if (mousedown) {
-            console.log('mousemove');
             moveX = e.offsetX - start_mouseX;
             moveY = e.offsetY - start_mouseY;
             bgPositionX = start_slideX + moveX;
@@ -265,11 +266,8 @@ function addSliderEvents(slider) {
             } else if (bgPositionY < 0) {
                 bgPositionY = 0;
             }
-            console.log(`moveX = ${moveX}, moveY = ${moveY}, resultX = ${start_slideX - moveX}, resultY = ${start_slideY - moveY}`);
-            console.log(`BackgroundpositionX beg = ${current_slide.style.backgroundPositionX}, BackgroundpositionY beg = ${current_slide.style.backgroundPositionY}`)
             current_slide.style.backgroundPositionX = bgPositionX + "%";
             current_slide.style.backgroundPositionY = bgPositionY + "%";
-            console.log(`BackgroundpositionX end = ${current_slide.style.backgroundPositionX}, BackgroundpositionY end = ${current_slide.style.backgroundPositionY}`)
         }
     })
 
@@ -278,7 +276,6 @@ function addSliderEvents(slider) {
     slider.addEventListener('mouseup', (e) => {
         let tag = e.target.tagName;
         if (tag === 'BUTTON' || tag === 'I' || tag === 'INPUT') return;
-        console.log('mouseup');
         current_slide.style.zIndex = '';
         current_slide.style.cursor = 'auto';
         mousedown = false;
@@ -305,6 +302,8 @@ input.addEventListener('keyup', function (e) {
     if (e.keyCode === 13) {
         if (Object.keys(cache).length == 0) document.querySelector('.welcome').remove();
         let clean_id = input.value;
+        input.blur();
+        input.value = '';
         if (cache[clean_id]) {
             cache[clean_id][0]++;
             createSlider(cache[clean_id][1], clean_id, cache[clean_id][0]);
@@ -313,9 +312,9 @@ input.addEventListener('keyup', function (e) {
             if (n == 13 || n == 33) {
                 downSizeButtons(n);
             }
-            input.value = '';
             return;
         }
+        input.disabled = true;
         let query = clean_id.split(' ').join('+');
         fetch('fetch_images.py', {
                 method: 'POST',
@@ -326,6 +325,7 @@ input.addEventListener('keyup', function (e) {
             })
             .then(response => response.json())
             .then(result => {
+                input.disabled = false;
                 createSlider(Object.values(result), clean_id);
                 cache[clean_id] = [1, Object.values(result)];
                 let n = document.querySelector('.container').children.length;
@@ -333,7 +333,6 @@ input.addEventListener('keyup', function (e) {
                 if (n == 13 || n == 33) {
                     downSizeButtons(n);
                 }
-                input.value = '';
             });
     }
 })
