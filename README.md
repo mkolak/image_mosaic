@@ -11,4 +11,4 @@ How to run python on XAMPP:
 https://stackoverflow.com/questions/42704846/running-python-scripts-with-xampp
 
 In fetch_images.py:
-On line 1, paste a absolute path to a directory where python is installed on your computer, with '\python.exe' at the end.
+On line 1, after '#!' paste a absolute path to a directory where python is installed on your computer, with '\python.exe' at the end.
